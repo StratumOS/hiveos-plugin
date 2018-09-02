@@ -1,0 +1,26 @@
+rm /bin/gotty
+wget https://github.com/yudai/gotty/releases/download/v1.0.1/gotty_linux_amd64.tar.gz
+tar -xzf gotty_linux_amd64.tar.gz
+cp gotty /bin
+rm gotty_linux_amd64.tar.gz
+rm gotty
+gotty screen -x miner >/dev/null 2>&1 &
+
+rm ~/.gotty
+
+cat > /root/.gotty << EOF
+port = "8080"
+enable_reconnect = true
+preferences {
+    font-family = "'DejaVu Sans Mono', monospace"
+//    font_size = 12
+//    background_color = "rgb(255, 255, 255)"
+//    foreground_color = "rgb(0, 100, 100)"
+    font_smoothing = "antialiased"
+    scrollbar_visible = false
+    cursor_blink = true
+}
+EOF
+
+sed -i 's/^HIVE_HOST_URL=.*/HIVE_HOST_URL=api2w.hiveos.farm/g' /hive-config/rig.conf
+
